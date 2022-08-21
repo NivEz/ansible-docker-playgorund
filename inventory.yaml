@@ -1,0 +1,6 @@
+nodes:
+  hosts:
+    node-01:
+      ansible_host: ansible-docker-playground-node-1
+    node-02:
+      ansible_host: ansible-docker-playground-node-2

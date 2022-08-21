@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  ansible-base:
+    image: ansible-docker-base:latest
+    build:
+      context: .
+      dockerfile: ./base.Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 0
+    volumes:
+      - ssh_keys:/root/.ssh
+  master:
+    container_name: ansible-master
+    image: ansible-master:latest
+    build:
+      context: .
+      dockerfile: ./master.Dockerfile
+    deploy:
+      mode: replicated
+      replicas: 1
+    restart: unless-stopped
+    depends_on:
+      - ansible-base
+    volumes:
+      - ssh_keys:/root/shared
+  node:
+    build:
+      context: .
+      dockerfile: ./node.Dockerfile
+    image: ansible-node:latest
+    deploy:
+      mode: replicated
+      replicas: 2
+    restart: unless-stopped
+    depends_on:
+      - ansible-base
+      - master
+    volumes:
+      - ssh_keys:/root/shared
+
+volumes:
+  ssh_keys:
