@@ -8,3 +8,10 @@
     - name: Print message
       ansible.builtin.debug:
         msg: Hello world
+
+    - name: Execute test shell script
+        ansible.builtin.shell:
+          cmd: pwd
+
+    - name: Execute test shell script
+      ansible.builtin.shell: test-script.sh

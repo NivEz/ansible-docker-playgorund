@@ -24,6 +24,8 @@ services:
       - ansible-base
     volumes:
       - ssh_keys:/root/shared
+      - ./master-volume:/root/ansible:ro
+
   node:
     build:
       context: .

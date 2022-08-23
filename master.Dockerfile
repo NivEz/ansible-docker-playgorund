@@ -9,13 +9,7 @@ RUN \
 echo '[defaults] \n\
 host_key_checking = False' > /etc/ansible/ansible.cfg
 
-RUN mkdir /root/ansible
-
-
-WORKDIR /root/ansible
-
-COPY ./inventory.yaml .
-COPY ./playbook.yaml .
+WORKDIR /root
 
 COPY ./entrypoint-master.sh ./entrypoint.sh
 
