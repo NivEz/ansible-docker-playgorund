@@ -9,9 +9,35 @@
       ansible.builtin.debug:
         msg: Hello world
 
-    - name: Execute test shell script
-        ansible.builtin.shell:
-          cmd: pwd
+    - name: Execute ls -la
+      shell: ls -la
+      register: output
 
-    - name: Execute test shell script
-      ansible.builtin.shell: test-script.sh
+    - name: Debug output of ls -la
+      debug: var=output
+
+    - name: Execute script from master/local machine
+      script: local-test.sh
+      register: local_output
+
+    - name: Debug output of local-test.sh
+      debug: var=local_output
+
+    - name: Copy node-test script to the node machine
+      copy:
+        src: ./node-test.sh
+        dest: /root/hello
+        mode: '700'
+      register: copy_output
+
+    - name: Copy output
+      debug: var=copy_output
+
+    - name: Execute script in the nodes
+      shell: ./node-test.sh
+      args:
+        chdir: /root/hello
+      register: remote_output
+
+    - name: Debug output of node-script
+      debug: var=remote_output
