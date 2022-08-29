@@ -13,4 +13,6 @@ WORKDIR /root
 
 COPY ./entrypoint-master.sh ./entrypoint.sh
 
+RUN sed -i -e 's/\r$//' ./entrypoint.sh
+
 CMD ./entrypoint.sh && sleep infinity
